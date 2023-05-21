@@ -1,2 +1,2 @@
 [workspace]
-members = ["template"]
+members = ["template", "abc*/"]
