@@ -3,6 +3,51 @@
 version = 3
 
 [[package]]
+name = "abc071"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "petgraph",
+ "proconio",
+]
+
+[[package]]
+name = "abc284"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "petgraph",
+ "proconio",
+]
+
+[[package]]
+name = "abc296"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "petgraph",
+ "proconio",
+]
+
+[[package]]
+name = "abc301"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "petgraph",
+ "proconio",
+]
+
+[[package]]
+name = "abc302"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "petgraph",
+ "proconio",
+]
+
+[[package]]
 name = "autocfg"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

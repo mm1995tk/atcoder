@@ -19,12 +19,17 @@ test-suite = "{{ manifest_dir }}/testcases/{{ bin_alias }}.yml"
 #open = '[["code", "-a", .manifest_dir], ["code"] + (.paths | map([.src, .test_suite]) | flatten)]'
 # Emacs:
 #open = '["emacsclient", "-n"] + (.paths | map([.src, .test_suite]) | flatten)'
-
 [template]
 src = '''
 use itertools::Itertools;
-use proconio::{input, marker::Usize1};
-use std::{cmp::Reverse, collections::BinaryHeap};
+use proconio::{
+    input,
+    marker::{Chars, Usize1},
+};
+use std::{
+    cmp::Reverse,
+    collections::{BinaryHeap, HashMap, HashSet},
+};
 
 fn main() {
     input! {
@@ -299,6 +304,81 @@ impl<'a, T> Iterator for BitPatternIterator<'a, T> {
     }
 }
 
+#[derive(Debug, Clone)]
+struct GridZipper {
+    focus: (isize, isize),
+    history: Vec<(isize, isize)>,
+}
+
+impl GridZipper {
+    fn go_to_left(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 -= n as isize;
+        self
+    }
+
+    fn go_to_upper_left(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 -= n as isize;
+        self.focus.0 -= n as isize;
+
+        self
+    }
+
+    fn go_to_lower_left(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 -= n as isize;
+        self.focus.0 += n as isize;
+
+        self
+    }
+
+    fn go_to_upper_right(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 += n as isize;
+        self.focus.0 -= n as isize;
+
+        self
+    }
+
+    fn go_to_lower_right(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 += n as isize;
+        self.focus.0 += n as isize;
+
+        self
+    }
+
+    fn go_to_right(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 += n as isize;
+        self
+    }
+
+    fn go_up(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.0 -= n as isize;
+        self
+    }
+
+    fn go_down(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.0 += n as isize;
+        self
+    }
+
+    fn go_back(&mut self) -> &mut Self {
+        let pre = self.history.pop();
+        match pre {
+            None => self,
+            Some(v) => {
+                self.focus = v;
+                self
+            }
+        }
+    }
+}
+
 const INF: usize = usize::max_value();
 
 '''
@@ -345,7 +425,6 @@ path = "./{{ contest }}"
 #kind = "oj-api"
 #url = "https://atcoder.jp/contests/{{ id }}"
 #path = "./{{ contest }}"
-
 # for Library-Checker
 #[add]
 #url = "https://judge.yosupo.jp/problem/{{ args[0] }}"
@@ -354,7 +433,6 @@ path = "./{{ contest }}"
 #bin-name = '{{ args[0] }}'
 ##bin-alias = '{{ args[0] }}' # optional
 ##bin-src-path = './src/bin/{{ bin_alias }}.rs' # optional
-
 # for yukicoder
 # [add]
 # url = '{% case args[0] %}{% when "contest" %}https://yukicoder.me/contests/{{ args[1] }}{% when "problem" %}https://yukicoder.me/problems/no/{{ args[1] }}{% endcase %}'
@@ -363,16 +441,13 @@ path = "./{{ contest }}"
 # bin-name = '{% assign segments = url | split: "/" %}{{ segments[5] }}'
 ##bin-alias = '{% assign segments = url | split: "/" %}{{ segments[5] }}' # optional
 ##bin-src-path = './src/bin/{{ bin_alias }}.rs' # optional
-
 [test]
 # Toolchain for the test. (optional)
 # toolchain = "1.42.0"
-
 # Profile for `cargo build`. ("dev" | "release")
 #
 # Defaults to `"dev"`.
 #profile = "dev"
-
 #[submit.transpile]
 #kind = "command"
 #args = ["cargo", "equip", "--exclude-atcoder-crates", "--resolve-cfgs", "--remove", "docs", "--minify", "libs", "--rustfmt", "--check", "--bin", "{{ bin_name }}"]

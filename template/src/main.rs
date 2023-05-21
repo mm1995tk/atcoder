@@ -281,4 +281,79 @@ impl<'a, T> Iterator for BitPatternIterator<'a, T> {
     }
 }
 
+#[derive(Debug, Clone)]
+struct GridZipper {
+    focus: (isize, isize),
+    history: Vec<(isize, isize)>,
+}
+
+impl GridZipper {
+    fn go_to_left(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 -= n as isize;
+        self
+    }
+
+    fn go_to_upper_left(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 -= n as isize;
+        self.focus.0 -= n as isize;
+
+        self
+    }
+
+    fn go_to_lower_left(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 -= n as isize;
+        self.focus.0 += n as isize;
+
+        self
+    }
+
+    fn go_to_upper_right(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 += n as isize;
+        self.focus.0 -= n as isize;
+
+        self
+    }
+
+    fn go_to_lower_right(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 += n as isize;
+        self.focus.0 += n as isize;
+
+        self
+    }
+
+    fn go_to_right(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.1 += n as isize;
+        self
+    }
+
+    fn go_up(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.0 -= n as isize;
+        self
+    }
+
+    fn go_down(&mut self, n: usize) -> &mut Self {
+        self.history.push(self.focus);
+        self.focus.0 += n as isize;
+        self
+    }
+
+    fn go_back(&mut self) -> &mut Self {
+        let pre = self.history.pop();
+        match pre {
+            None => self,
+            Some(v) => {
+                self.focus = v;
+                self
+            }
+        }
+    }
+}
+
 const INF: usize = usize::max_value();
