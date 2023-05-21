@@ -1,2 +1,2 @@
 [workspace]
-members = ["template", "abc*/"]
+members = ["template", "abc*/", "tessoku-book"]
