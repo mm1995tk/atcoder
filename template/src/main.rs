@@ -9,7 +9,9 @@ use std::{
 };
 
 fn main() {
-    input! {}
+    input! {
+        
+    }
 }
 
 fn print_yes_or_no(&b: &bool) {
