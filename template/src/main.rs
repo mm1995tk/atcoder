@@ -6,16 +6,27 @@ use proconio::{
 use std::{
     cmp::Reverse,
     collections::{BinaryHeap, HashMap, HashSet},
+    vec,
 };
 
 fn main() {
-    input! {
-        
-    }
+    input! {}
 }
 
 fn print_yes_or_no(&b: &bool) {
     println!("{}", if b { "Yes" } else { "No" });
+}
+
+/// ユークリッド距離の2乗
+fn euclidean_distance<
+    T: std::ops::Add<Output = T> + std::ops::Sub<Output = T> + std::ops::Mul<Output = T> + Clone,
+>(
+    a: (T, T),
+    b: (T, T),
+) -> T {
+    let x = a.0 - b.0;
+    let y = a.1 - b.1;
+    x.clone() * x + y.clone() * y
 }
 
 fn dijkstra_heap<'a, F: FnMut(usize, &'a Edge)>(
@@ -134,6 +145,7 @@ fn is_prime_number(n: usize) -> bool {
     }
 }
 
+///  素因数分解
 fn prime_factorize(mut n: usize) -> Vec<(usize, usize)> {
     let mut res: Vec<(usize, usize)> = vec![];
 
