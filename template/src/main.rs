@@ -10,7 +10,10 @@ use std::{
 };
 
 fn main() {
-    input! {}
+    input! {
+        n:usize,
+        edges: [(usize, usize);n]
+    }
 }
 
 fn print_yes_or_no(&b: &bool) {
@@ -89,8 +92,8 @@ fn dijkstra_heap2<F: Fn(usize, &Edge, &Vec<usize>) -> T, T>(
     (dist, result)
 }
 
-fn mk_graph(edges: &Vec<(usize, usize)>, is_directed: bool) -> Graph {
-    let mut g: Graph = vec![vec![]; edges.len()];
+fn mk_graph(n: usize, edges: &Vec<(usize, usize)>, is_directed: bool) -> Graph {
+    let mut g: Graph = vec![vec![]; n];
     for id in 0..edges.len() {
         let &(a, b) = &edges[id];
         g[a].push(Edge { to: b, cost: 1, id });
@@ -102,8 +105,8 @@ fn mk_graph(edges: &Vec<(usize, usize)>, is_directed: bool) -> Graph {
     g
 }
 
-fn mk_costed_graph(edges: &Vec<(usize, usize, isize)>, is_directed: bool) -> Graph {
-    let mut g: Graph = vec![vec![]; edges.len()];
+fn mk_costed_graph(n: usize, edges: &Vec<(usize, usize, isize)>, is_directed: bool) -> Graph {
+    let mut g: Graph = vec![vec![]; n];
     for id in 0..edges.len() {
         let &(a, b, cost) = &edges[id];
         g[a].push(Edge { to: b, cost, id });
