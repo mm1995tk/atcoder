@@ -20,6 +20,22 @@ fn print_yes_or_no(&b: &bool) {
     println!("{}", if b { "Yes" } else { "No" });
 }
 
+fn run_length_encoding(str: &str) -> Vec<(char, usize)> {
+    let chars = str.chars().collect_vec();
+
+    let mut vec = vec![(chars[0], 0usize)];
+
+    for c in chars {
+        let x = vec.last_mut().unwrap();
+        if c == x.0 {
+            x.1 += 1;
+        } else {
+            vec.push((c, 1));
+        }
+    }
+    vec
+}
+
 /// ユークリッド距離の2乗
 fn euclidean_distance<
     T: std::ops::Add<Output = T> + std::ops::Sub<Output = T> + std::ops::Mul<Output = T> + Clone,
