@@ -313,76 +313,54 @@ impl<'a, T> Iterator for BitPatternIterator<'a, T> {
 }
 
 #[derive(Debug, Clone)]
-struct GridZipper {
-    focus: (isize, isize),
-    history: Vec<(isize, isize)>,
+struct GridCell {
+    focus: (usize, usize),
+    h: usize,
+    w: usize,
 }
 
-impl GridZipper {
-    fn go_to_left(&mut self, n: usize) -> &mut Self {
-        self.history.push(self.focus);
-        self.focus.1 -= n as isize;
-        self
+impl GridCell {
+    fn left(&self, n: usize) -> Option<Self> {
+        if self.focus.1 >= n {
+            Some(Self {
+                focus: (self.focus.0, self.focus.1 - n),
+                ..self.clone()
+            })
+        } else {
+            None
+        }
     }
 
-    fn go_to_upper_left(&mut self, n: usize) -> &mut Self {
-        self.history.push(self.focus);
-        self.focus.1 -= n as isize;
-        self.focus.0 -= n as isize;
-
-        self
+    fn right(&self, n: usize) -> Option<Self> {
+        if self.focus.1 + n < self.w {
+            Some(Self {
+                focus: (self.focus.0, self.focus.1 + n),
+                ..self.clone()
+            })
+        } else {
+            None
+        }
     }
 
-    fn go_to_lower_left(&mut self, n: usize) -> &mut Self {
-        self.history.push(self.focus);
-        self.focus.1 -= n as isize;
-        self.focus.0 += n as isize;
-
-        self
+    fn up(&self, n: usize) -> Option<Self> {
+        if self.focus.0 >= n {
+            Some(Self {
+                focus: (self.focus.0 - n, self.focus.1),
+                ..self.clone()
+            })
+        } else {
+            None
+        }
     }
 
-    fn go_to_upper_right(&mut self, n: usize) -> &mut Self {
-        self.history.push(self.focus);
-        self.focus.1 += n as isize;
-        self.focus.0 -= n as isize;
-
-        self
-    }
-
-    fn go_to_lower_right(&mut self, n: usize) -> &mut Self {
-        self.history.push(self.focus);
-        self.focus.1 += n as isize;
-        self.focus.0 += n as isize;
-
-        self
-    }
-
-    fn go_to_right(&mut self, n: usize) -> &mut Self {
-        self.history.push(self.focus);
-        self.focus.1 += n as isize;
-        self
-    }
-
-    fn go_up(&mut self, n: usize) -> &mut Self {
-        self.history.push(self.focus);
-        self.focus.0 -= n as isize;
-        self
-    }
-
-    fn go_down(&mut self, n: usize) -> &mut Self {
-        self.history.push(self.focus);
-        self.focus.0 += n as isize;
-        self
-    }
-
-    fn go_back(&mut self) -> &mut Self {
-        let pre = self.history.pop();
-        match pre {
-            None => self,
-            Some(v) => {
-                self.focus = v;
-                self
-            }
+    fn down(&self, n: usize) -> Option<Self> {
+        if self.focus.0 + n < self.h {
+            Some(Self {
+                focus: (self.focus.0 + n, self.focus.1),
+                ..self.clone()
+            })
+        } else {
+            None
         }
     }
 }
