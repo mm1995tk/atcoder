@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 proconio = "0.4.3"
-itertools = "0.10.5"
+itertools = "0.12.1"
 petgraph = "0.6.3"
+ac-library-rs = "0.1.1"
