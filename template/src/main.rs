@@ -48,10 +48,34 @@ fn euclidean_distance<
     x.clone() * x + y.clone() * y
 }
 
-fn dijkstra_heap<'a, F: FnMut(usize, &'a Edge)>(
+fn dijkstra_heap<'a>(g: &'a Graph, start: usize) -> Vec<usize> {
+    let n = g.len();
+    let mut dist = vec![INF; n];
+    let mut heap = BinaryHeap::with_capacity(n);
+
+    dist[start] = 0;
+    heap.push((Reverse(0), start));
+
+    while let Some((Reverse(d), v)) = heap.pop() {
+        if d > dist[v] {
+            continue;
+        }
+        for e in &g[v] {
+            let tmp = dist[v] + (e.cost as usize);
+            if dist[e.to] > tmp {
+                dist[e.to] = tmp;
+                heap.push((Reverse(dist[e.to]), e.to));
+            }
+        }
+    }
+    dist
+}
+
+fn dijkstra_heap_with_callback<'a, F: FnMut(usize, &'a Edge)>(
     g: &'a Graph,
     start: usize,
-    mut callback: Option<F>,
+    // startからの最短距離のリストが更新されるたびに実行される
+    mut on_change_dist: F,
 ) -> Vec<usize> {
     let n = g.len();
     let mut dist = vec![INF; n];
@@ -69,43 +93,30 @@ fn dijkstra_heap<'a, F: FnMut(usize, &'a Edge)>(
             if dist[e.to] > tmp {
                 dist[e.to] = tmp;
                 heap.push((Reverse(dist[e.to]), e.to));
-                if let Some(ref mut f) = callback {
-                    f(v, e);
-                }
+                on_change_dist(v, e);
             }
         }
     }
     dist
 }
-
-fn dijkstra_heap2<F: Fn(usize, &Edge, &Vec<usize>) -> T, T>(
-    g: &Graph,
-    start: usize,
-    callback: F,
-) -> (Vec<usize>, Vec<T>) {
-    let n = g.len();
-    let mut dist = vec![INF; n];
-    let mut heap = BinaryHeap::with_capacity(n);
-
-    dist[start] = 0;
-    heap.push((Reverse(0), start));
-
-    let mut result: Vec<T> = vec![];
-
-    while let Some((Reverse(d), v)) = heap.pop() {
-        if d > dist[v] {
-            continue;
-        }
-        for e in &g[v] {
-            let tmp = dist[v] + (e.cost as usize);
-            if dist[e.to] > tmp {
-                dist[e.to] = tmp;
-                heap.push((Reverse(dist[e.to]), e.to));
-                result.push(callback(v, e, &dist));
-            }
-        }
+/// Examples:
+///
+/// ```
+/// dijkstra_heap_with_callback(&g, 0, |a, e| {
+///    prev[e.to] = Some(a);
+/// });
+/// let p = restore_dijkstra_path(n - 1, &prev);
+///
+/// ```
+fn restore_dijkstra_path(to: usize, prev: &Vec<Option<usize>>) -> Vec<usize> {
+    let mut i = to;
+    let mut p = vec![to];
+    while let Some(&Some(v)) = prev.get(i) {
+        p.push(v);
+        i = v;
     }
-    (dist, result)
+    p.reverse();
+    p
 }
 
 fn mk_graph(n: usize, edges: &Vec<(usize, usize)>, is_directed: bool) -> Graph {
