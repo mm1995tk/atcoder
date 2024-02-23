@@ -35,6 +35,22 @@ fn run_length_encoding(str: &str) -> Vec<(char, usize)> {
     vec
 }
 
+/// 答えで二分探索
+fn bi_search_by_answer(f: impl Fn(usize) -> bool) -> (usize, usize) {
+    let mut l = 0usize;
+    let mut r = INF;
+    while r - l > 1 {
+        let mid = (l + r) / 2;
+
+        if f(mid) {
+            r = mid;
+        } else {
+            l = mid;
+        }
+    }
+    (l, r)
+}
+
 /// 繰り返し二乗法によるa^nをpで割ったあまりを求める
 fn mod_pow(a: usize, n: usize, p: usize) -> usize {
     if n == 0 {
