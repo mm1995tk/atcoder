@@ -32,12 +32,6 @@ fn main() {
     }
 }
 
-
-
-fn print_yes_or_no(&b: &bool) {
-    println!("{}", if b { "Yes" } else { "No" });
-}
-
 const INF: usize = usize::max_value();
 '''
 
