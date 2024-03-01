@@ -73,6 +73,16 @@ fn div_mod(a: usize, b: usize, p: usize) -> usize {
     a * mod_pow(b, p - 2, p)
 }
 
+fn div_ceil(m: usize, n: usize) -> usize {
+    let x = m / n;
+
+    if m % n == 0 {
+        x
+    } else {
+        x + 1
+    }
+}
+
 /// ユークリッド距離の2乗
 fn euclidean_distance<
     T: std::ops::Add<Output = T> + std::ops::Sub<Output = T> + std::ops::Mul<Output = T> + Clone,
