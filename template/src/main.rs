@@ -15,7 +15,7 @@ fn main() {
     }
 }
 
-fn print_yes_or_no(&b: &bool) {
+fn print_yes_or_no(b: bool) {
     println!("{}", if b { "Yes" } else { "No" });
 }
 
@@ -425,7 +425,6 @@ impl GridCell {
 
 const INF: usize = usize::max_value();
 
-
 /// 回文判定
 fn is_kaibun(x: &str) -> bool {
     let chars = x.chars().collect_vec();
@@ -435,4 +434,20 @@ fn is_kaibun(x: &str) -> bool {
         b = b && chars[i] == chars[chars.len() - i - 1];
     }
     b
+}
+
+fn usize_to_vec<T: std::str::FromStr>(n: usize) -> Vec<T>
+where
+    <T as std::str::FromStr>::Err: std::fmt::Debug,
+{
+    let mut res = vec![];
+    for c in n.to_string().as_str().chars() {
+        res.push(
+            c.to_string()
+                .parse()
+                .expect(format!("{c}を型Tに変換できない").as_str()),
+        );
+    }
+
+    res
 }
