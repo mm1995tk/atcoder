@@ -424,3 +424,15 @@ impl GridCell {
 }
 
 const INF: usize = usize::max_value();
+
+
+/// 回文判定
+fn is_kaibun(x: &str) -> bool {
+    let chars = x.chars().collect_vec();
+
+    let mut b = true;
+    for i in 0..chars.len() / 2 {
+        b = b && chars[i] == chars[chars.len() - i - 1];
+    }
+    b
+}
