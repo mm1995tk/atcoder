@@ -5,9 +5,9 @@ use proconio::{
 };
 use std::{
     cmp::Reverse,
-    collections::{BinaryHeap, HashMap, HashSet},
-    vec,
+    collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque},
 };
+use superslice::Ext;
 
 fn main() {
     input! {

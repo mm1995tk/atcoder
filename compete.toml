@@ -26,9 +26,16 @@ use proconio::{
     input,
     marker::{Chars, Usize1},
 };
+use std::{
+    cmp::Reverse,
+    collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque},
+};
+use superslice::Ext;
+
 fn main() {
     input! {
-        n:usize,
+        n: usize,
+        m: usize,
     }
 }
 
