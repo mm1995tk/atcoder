@@ -451,3 +451,27 @@ where
 
     res
 }
+
+/// コールバック関数fがtrueとなる要素が何連続しているかを数える
+fn count_sequence<T, Collection: FromIterator<usize>>(
+    vector: &Vec<T>,
+    f: impl Fn(&T) -> bool,
+) -> Collection {
+    let mut local = 0;
+    let mut ans = vec![];
+
+    for i in vector {
+        let b = f(i);
+
+        if !b {
+            ans.push(local);
+            local = 0;
+            continue;
+        }
+
+        local += 1;
+    }
+    ans.push(local);
+
+    ans.into_iter().collect()
+}
