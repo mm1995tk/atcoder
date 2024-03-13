@@ -30,6 +30,7 @@ use std::{
     cmp::Reverse,
     collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque},
 };
+use std::mem::swap;
 use superslice::Ext;
 
 fn main() {
