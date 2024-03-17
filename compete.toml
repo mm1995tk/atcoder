@@ -32,6 +32,7 @@ use std::{
 };
 use std::mem::swap;
 use superslice::Ext;
+use num::Integer;
 
 fn main() {
     input! {

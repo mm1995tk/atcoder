@@ -1,4 +1,5 @@
 use itertools::Itertools;
+use num::Integer;
 use proconio::{
     input,
     marker::{Chars, Usize1},
@@ -71,16 +72,6 @@ fn mod_pow(a: usize, n: usize, p: usize) -> usize {
 /// 体がmod(p)の時のa/bの結果を求める
 fn div_mod(a: usize, b: usize, p: usize) -> usize {
     a * mod_pow(b, p - 2, p)
-}
-
-fn div_ceil(m: usize, n: usize) -> usize {
-    let x = m / n;
-
-    if m % n == 0 {
-        x
-    } else {
-        x + 1
-    }
 }
 
 /// ユークリッド距離の2乗
