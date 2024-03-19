@@ -21,19 +21,25 @@ fn print_yes_or_no(b: bool) {
 }
 
 fn run_length_encoding(str: &str) -> Vec<(char, usize)> {
-    let chars = str.chars().collect_vec();
+    let mut ans = vec![];
 
-    let mut vec = vec![(chars[0], 0usize)];
+    let chars = str.chars().collect_vec();
+    if chars.len() < 1 {
+        return ans;
+    }
+
+    ans.push((chars[0], 0usize));
 
     for c in chars {
-        let x = vec.last_mut().unwrap();
+        let x = ans.last_mut().unwrap();
         if c == x.0 {
             x.1 += 1;
         } else {
-            vec.push((c, 1));
+            ans.push((c, 1));
         }
     }
-    vec
+
+    ans
 }
 
 /// 答えで二分探索
