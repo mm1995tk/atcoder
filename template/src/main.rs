@@ -7,6 +7,7 @@ use proconio::{
 use std::{
     cmp::Reverse,
     collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque},
+    hash::Hash,
 };
 use superslice::Ext;
 
@@ -473,4 +474,18 @@ fn count_sequence<T, Collection: FromIterator<usize>>(
     ans.push(local);
 
     ans.into_iter().collect()
+}
+
+fn count_by_item<T: Eq + Hash>(xs: Vec<T>) -> HashMap<T, usize> {
+    let mut resp = HashMap::new();
+
+    for x in xs {
+        resp.entry(x)
+            .and_modify(|x| {
+                *x += 1;
+            })
+            .or_insert(1);
+    }
+
+    resp
 }
