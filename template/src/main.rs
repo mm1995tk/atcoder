@@ -10,6 +10,8 @@ use std::{
 };
 use superslice::Ext;
 
+// lower_bound(&x) x以上のiterator => xより小さい個数が何個あるかわかる
+// upper_bound(&x) xより大きいiterator => x以下の個数が何個あるかわかる
 fn main() {
     input! {
         n:usize,
