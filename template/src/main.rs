@@ -9,10 +9,10 @@ use std::{
     collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque},
     hash::Hash,
 };
-use superslice::Ext;
-
 // lower_bound(&x) x以上のiterator => xより小さい個数が何個あるかわかる
 // upper_bound(&x) xより大きいiterator => x以下の個数が何個あるかわかる
+use superslice::Ext;
+
 fn main() {
     input! {
         n:usize,

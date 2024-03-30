@@ -31,8 +31,12 @@ use std::{
     collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque},
 };
 use std::mem::swap;
+// lower_bound(&x) x以上のiterator => xより小さい個数が何個あるかわかる
+// upper_bound(&x) xより大きいiterator => x以下の個数が何個あるかわかる
 use superslice::Ext;
 use num::Integer;
+
+const INF: usize = usize::max_value();
 
 fn main() {
     input! {
@@ -41,7 +45,10 @@ fn main() {
     }
 }
 
-const INF: usize = usize::max_value();
+fn print_yes_or_no(b: bool) {
+    println!("{}", if b { "Yes" } else { "No" });
+}
+
 '''
 
 [template.new]
