@@ -18,12 +18,14 @@ struct Edge {
 }
 
 fn mk_graph(n: usize, edges: &Vec<(usize, usize)>, is_directed: bool) -> Graph {
+    let default_cost = 1;
+
     let mut g: Graph = vec![vec![]; n];
     for id in 0..edges.len() {
         let &(a, b) = &edges[id];
-        g[a].push(Edge { to: b, cost: 1, id });
+        g[a].push(Edge { to: b, cost: default_cost, id });
         if !is_directed {
-            g[b].push(Edge { to: a, cost: 1, id });
+            g[b].push(Edge { to: a, cost: default_cost, id });
         }
     }
 
