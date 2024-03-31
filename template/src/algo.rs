@@ -15,3 +15,15 @@ fn bi_search_by_answer(f: impl Fn(usize) -> bool) -> (usize, usize) {
     }
     (l, r)
 }
+
+/// 累積和を作成
+fn mk_prefix_sum<T: Copy + Clone + Default + std::ops::Add<Output = T>>(xs: &Vec<T>) -> Vec<T> {
+    let n = xs.len();
+    let mut res = vec![T::default(); n + 1];
+
+    for i in 0..n {
+        res[i + 1] = res[i] + xs[i];
+    }
+
+    res
+}
