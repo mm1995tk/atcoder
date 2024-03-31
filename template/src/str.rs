@@ -59,18 +59,3 @@ fn count_by_ascii_lowercase(s: &str) -> Vec<usize> {
 
     alpha
 }
-
-/// charごとの登場回数を数える
-fn count_by_char(s: &str) -> BTreeMap<char, usize> {
-    let mut map = BTreeMap::new();
-
-    for c in s.chars() {
-        map.entry(c)
-            .and_modify(|x| {
-                *x += 1;
-            })
-            .or_insert(1);
-    }
-
-    map
-}
