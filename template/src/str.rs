@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+
 use itertools::Itertools;
 
 fn run_length_encoding(str: &str) -> Vec<(char, usize)> {
@@ -31,4 +33,44 @@ fn is_kaibun(x: &str) -> bool {
         b = b && chars[i] == chars[chars.len() - i - 1];
     }
     b
+}
+
+/// 空文字列を含まないsubstringの組み合わせ
+fn substrings(s: &str) -> Vec<&str> {
+    let mut substrs = vec![];
+
+    for i in 0..s.len() {
+        for j in i + 1..=s.len() {
+            substrs.push(&s[i..j]);
+        }
+    }
+
+    substrs
+}
+
+/// 文字列中の英小文字の登場回数を数える
+fn count_by_ascii_lowercase(s: &str) -> Vec<usize> {
+    let mut alpha = vec![0; 26];
+
+    for c in s.chars() {
+        let i = c as usize - 97;
+        alpha[i] += 1;
+    }
+
+    alpha
+}
+
+/// charごとの登場回数を数える
+fn count_by_char(s: &str) -> BTreeMap<char, usize> {
+    let mut map = BTreeMap::new();
+
+    for c in s.chars() {
+        map.entry(c)
+            .and_modify(|x| {
+                *x += 1;
+            })
+            .or_insert(1);
+    }
+
+    map
 }
