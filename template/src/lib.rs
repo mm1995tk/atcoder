@@ -21,7 +21,7 @@ use std::{
 // upper_bound(&x) xより大きいiterator => x以下の個数が何個あるかわかる
 use superslice::Ext;
 
-const INF: usize = usize::max_value();
+const INF: usize = usize::MAX;
 
 fn main() {
     input! {
