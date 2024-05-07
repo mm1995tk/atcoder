@@ -1,4 +1,6 @@
+use ac_library::Dsu;
 use std::{cmp::Reverse, collections::BinaryHeap};
+
 use crate::INF;
 
 /// 生えている辺の集合を持つ形式のグラフ
@@ -23,9 +25,17 @@ fn mk_graph(n: usize, edges: &Vec<(usize, usize)>, is_directed: bool) -> Graph {
     let mut g: Graph = vec![vec![]; n];
     for id in 0..edges.len() {
         let &(a, b) = &edges[id];
-        g[a].push(Edge { to: b, cost: default_cost, id });
+        g[a].push(Edge {
+            to: b,
+            cost: default_cost,
+            id,
+        });
         if !is_directed {
-            g[b].push(Edge { to: a, cost: default_cost, id });
+            g[b].push(Edge {
+                to: a,
+                cost: default_cost,
+                id,
+            });
         }
     }
 
@@ -113,4 +123,31 @@ fn restore_dijkstra_path(to: usize, prev: &Vec<Option<usize>>) -> Vec<usize> {
     }
     p.reverse();
     p
+}
+
+fn kruscal(n: usize, mut edges: Vec<(usize, usize, usize)>) -> Option<usize> {
+    edges.sort_by(|x, y| x.2.cmp(&y.2));
+
+    let mut ans = 0;
+
+    let mut uf = Dsu::new(n);
+
+    for i in 0..edges.len() {
+        let w = edges[i].2;
+        let u = edges[i].0;
+        let v = edges[i].1;
+
+        if uf.same(u, v) {
+            continue;
+        }
+
+        ans += w;
+        uf.merge(u, v);
+    }
+
+    if uf.groups().len() > 1 {
+        None
+    } else {
+        Some(ans)
+    }
 }
