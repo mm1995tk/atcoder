@@ -5,6 +5,7 @@ mod graph;
 mod grid;
 mod int;
 mod str;
+mod lazy_seg_tree;
 
 use itertools::Itertools;
 use num::Integer;
