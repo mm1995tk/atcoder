@@ -28,7 +28,6 @@
         rustc = rustBins;
         cargo = rustBins;
       };
-
     in {
       packages = {};
 
